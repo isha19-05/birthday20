@@ -55,27 +55,28 @@ body{
 
 /* Messages */
 #msg1,
-#msg2{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) scale(0);
-  background:linear-gradient(135deg,#ff7eb3,#ff758c);
-  padding:30px;
-  border-radius:25px;
-  text-align:center;
-  box-shadow:0 15px 40px rgba(0,0,0,0.3);
-  font-size:1.4rem;
-  line-height:1.6;
-  z-index:40;
-  opacity:0;
-  color:white;
-  animation-fill-mode:forwards;
+#msg2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: linear-gradient(135deg, #ff7eb3, #ff758c);
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  font-size: 1.4rem;
+  line-height: 1.6;
+  z-index: 40;
+  opacity: 0;
+  color: white;
+  animation-fill-mode: forwards;
 
-  max-width:90vw;       /* Wider on mobile and desktop */
-  max-height:70vh;      /* Max height so it doesn't overflow screen */
-  overflow-y:auto;      /* Enable vertical scroll */
-  word-wrap:break-word; /* Break long words if needed */
+  max-width: 90vw;   /* wider on mobile and desktop */
+  width: auto;
+  max-height: 70vh;  /* so it doesn't overflow screen */
+  overflow-y: auto;  /* allow vertical scroll if content too long */
+  word-wrap: break-word; /* wrap long words */
 }
 
 /* Floating decorations */
@@ -87,6 +88,12 @@ body{
 /* Fireworks */
 .firework{position:absolute;width:10px;height:10px;background:yellow;border-radius:50%;opacity:0;animation:fw 1s ease-out forwards;}
 @keyframes fw{0%{transform:scale(0);opacity:1;}100%{transform:scale(2.5);opacity:0;}}
+@media only screen and (max-width: 600px){
+  #msg2{
+    font-size:1rem;  /* smaller text on phone */
+    padding:20px;    /* reduce padding */
+  }
+}
 </style>
 </head>
 <body>
@@ -216,23 +223,16 @@ async function showCakeThenFireworksSequence(){
   await typeAnimatedMessage(msg1,"🎉 Happy 20th Pallavi! 🎉",0,150);
   await delay(800);
  const poem = `
-🎉 Pallavi 🎉
-
 Our friendship has completed 7 amazing years! 🥹💖
 
 From our silly childhood moments to the secrets we’ve shared,
 every day with you has been a treasure beyond compare. ✨
-
-You light up every room with your smile,
-your kindness and love touch everyone around. 💕
 
 Today, as you turn 20, may your heart be filled with joy,
 your dreams take flight, and every wish you make comes true. 🎂🌸
 
 May laughter follow you wherever you go,
 and may our friendship grow stronger with each passing year. 🌟
-
-You’re not just my friend — you’re my family, my sunshine, my star. 💖
 
 Happy 20th Birthday, Pallavi! 🎉🎈✨
 `;
