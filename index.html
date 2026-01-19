@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pallavi Birthday Surprise 🎁</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{
+  height:100vh; overflow:hidden; position:relative;
+  background: linear-gradient(270deg,#ff758c,#ff7eb3,#fad0c4,#ffe6e6);
+  background-size: 600% 600%; animation:bgAnim 20s ease infinite;
+}
+/* Gradient animation */
+@keyframes bgAnim{
+  0%{background-position:0% 50%;}
+  25%{background-position:50% 50%;}
+  50%{background-position:100% 50%;}
+  75%{background-position:50% 50%;}
+  100%{background-position:0% 50%;}
+}
+/* Landing Page */
+#landingPage{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  background:rgba(0,0,0,0.3);z-index:100;color:white;
+}
+#landingPage h1{font-size:3rem;text-shadow:0 0 15px #fff;margin-bottom:20px;}
+#landingPage p{font-size:1.2rem;margin-bottom:30px;}
+#landingPage button{
+  padding:12px 25px;border:none;border-radius:30px;background:#fff;color:#ff5f7e;font-size:1.2rem;cursor:pointer;
+  transition:0.3s;box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+#landingPage button:hover{transform:scale(1.05);}
+
+/* Name prompt & friend challenge */
+#namePrompt,#friendChallenge{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(255,255,255,0.95);padding:30px;border-radius:20px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:50;
+}
+#namePrompt input{padding:10px 15px;font-size:1rem;border-radius:8px;border:1px solid #ccc;}
+#namePrompt button,#friendChallenge button{padding:10px 15px;font-size:1rem;border:none;border-radius:8px;background:#ff5f7e;color:white;cursor:pointer;margin:10px;}
+#errorMsg{margin-top:10px;color:red;font-size:0.9rem;}
+
+/* Gift Box */
+#giftBox{width:140px;height:120px;position:absolute;top:100px;left:50%;transform:translateX(-50%);cursor:pointer;z-index:10;box-shadow:0 8px 20px rgba(0,0,0,0.35);border-radius:12px;background:linear-gradient(to bottom,#ff6b8a,#ff4f7c);display:flex;justify-content:center;align-items:center;font-size:2rem;color:white;transition: all 0.8s ease;display:none;}
+.ribbon-vert{width:10px;height:120px;background:#ffd93d;position:absolute;left:50%;top:0;transform:translateX(-50%);border-radius:5px;}
+.ribbon-hor{width:140px;height:10px;background:#ffd93d;position:absolute;top:50%;left:0;border-radius:5px;}
+
+/* Cake */
+#cake{position:absolute;width:120px;height:120px;background:#ffd1dc;border-radius:0 0 20px 20px;bottom:-200px;left:50%;transform:translateX(-50%);display:none;z-index:30;text-align:center;font-size:2rem;line-height:120px;box-shadow:0 5px 15px rgba(0,0,0,0.3);}
+.candle{width:6px;height:20px;background:orange;position:absolute;top:-20px;left:50%;transform:translateX(-50%);border-radius:2px;}
+.flame{width:10px;height:10px;background:yellow;border-radius:50%;position:absolute;top:-10px;left:50%;transform:translateX(-50%);animation:flameAnim 0.5s infinite;}
+@keyframes flameAnim{0%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.3);}100%{transform:translateX(-50%) scale(1);}}
+
+/* Messages */
+#msg1,
+#msg2{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  background:linear-gradient(135deg,#ff7eb3,#ff758c);
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  font-size:1.4rem;
+  line-height:1.6;
+  z-index:40;
+  opacity:0;
+  color:white;
+  animation-fill-mode:forwards;
+
+  max-width:90vw;       /* Wider on mobile and desktop */
+  max-height:70vh;      /* Max height so it doesn't overflow screen */
+  overflow-y:auto;      /* Enable vertical scroll */
+  word-wrap:break-word; /* Break long words if needed */
+}
+
+/* Floating decorations */
+.floating{position:absolute;bottom:-50px;font-size:24px;animation:floatUp linear infinite;}
+@keyframes floatUp{0%{transform:translateY(0);}100%{transform:translateY(-900px);}}
+.confetti{position:absolute;width:8px;height:8px;background:red;animation:fall linear infinite;}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);}100%{transform:translateY(900px) rotate(360deg);}}
+
+/* Fireworks */
+.firework{position:absolute;width:10px;height:10px;background:yellow;border-radius:50%;opacity:0;animation:fw 1s ease-out forwards;}
+@keyframes fw{0%{transform:scale(0);opacity:1;}100%{transform:scale(2.5);opacity:0;}}
+</style>
+</head>
+<body>
+
+<!-- Landing Page -->
+<div id="landingPage">
+  <h1>🎉 Welcome to a Magical Surprise! 🎉</h1>
+  <p>Click below to start celebrating Pallavi’s birthday 💖</p>
+  <button id="landingStartBtn">Start 🎁</button>
+</div>
+
+<!-- Name Prompt -->
+<div id="namePrompt" style="display:none;">
+  <h2>Hey! What's your beautiful name?</h2>
+  <input type="text" id="userName" placeholder="Type your name...">
+  <button id="startBtn">Start</button>
+  <div id="errorMsg"></div>
+</div>
+
+<!-- Friend Challenge -->
+<div id="friendChallenge" style="display:none;">
+  <h2>Would you be my best friend forever? <br>Don’t dare say NO!</h2>
+  <button id="yesBtn">Yes</button>
+  <button id="noBtn">No</button>
+</div>
+
+<!-- Gift Box -->
+<div id="giftBox">🎁<div class="ribbon-vert"></div><div class="ribbon-hor"></div></div>
+
+<!-- Cake -->
+<div id="cake"><div class="candle"></div><div class="flame"></div>🎂</div>
+
+<!-- Messages -->
+<div id="msg1"><p></p></div>
+<div id="msg2"><p></p></div>
+
+<audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
+<script>
+const gift=document.getElementById("giftBox");
+const msg1=document.getElementById("msg1");
+const msg2=document.getElementById("msg2");
+const popSound=document.getElementById("popSound");
+const namePrompt=document.getElementById("namePrompt");
+const startBtn=document.getElementById("startBtn");
+const userNameInput=document.getElementById("userName");
+const errorMsg=document.getElementById("errorMsg");
+const friendChallenge=document.getElementById("friendChallenge");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const cake=document.getElementById("cake");
+const landingPage=document.getElementById("landingPage");
+const landingStartBtn=document.getElementById("landingStartBtn");
+
+gift.style.transition="all 0.8s ease";
+let moveInterval;
+
+// Floating decorations continuously
+function launchDecorations(){
+  const items=["🎈","🎉","💖","🌸","💗","🎊","🎂","⭐"];
+  setInterval(()=>{
+    const f=document.createElement("div");
+    f.className="floating";
+    f.innerHTML=items[Math.floor(Math.random()*items.length)];
+    f.style.left=Math.random()*90+"%";
+    f.style.fontSize=(16+Math.random()*24)+"px";
+    f.style.animationDuration=(4+Math.random()*4)+"s";
+    document.body.appendChild(f);
+    setTimeout(()=>{f.remove()},10000);
+  },600);
+  setInterval(()=>{
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"%";
+    c.style.background=`hsl(${Math.random()*360},70%,60%)`;
+    c.style.animationDuration=(3+Math.random()*2)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>{c.remove()},7000);
+  },200);
+}
+launchDecorations();
+
+// Landing page start
+landingStartBtn.addEventListener("click",()=>{
+  landingPage.style.display="none";
+  namePrompt.style.display="block";
+});
+
+// Name submit
+startBtn.addEventListener("click",()=>{
+  const name=userNameInput.value.trim().toLowerCase();
+  if(name==="pallavi"){
+    namePrompt.style.display="none";
+    friendChallenge.style.display="block";
+  }else{errorMsg.textContent="Oops! This surprise is only for Pallavi 😅";}
+});
+
+// No button escape
+noBtn.addEventListener("mouseenter",()=>{noBtn.style.position="absolute";noBtn.style.left=Math.random()*80+"%";noBtn.style.top=Math.random()*80+"%";});
+
+// Yes button
+yesBtn.addEventListener("click",()=>{
+  friendChallenge.style.display="none";
+  gift.style.display="flex";
+  moveInterval=setInterval(moveBox,1000);
+  setTimeout(()=>{clearInterval(moveInterval);},8000);
+});
+
+// Move gift box
+function moveBox(){
+  const x=Math.random()*(window.innerWidth-150);
+  const y=Math.random()*(window.innerHeight-120);
+  gift.style.left=x+"px";
+  gift.style.top=y+"px";
+}
+
+// Gift click
+gift.addEventListener("click",()=>{
+  popSound.play(); gift.style.display="none";
+  showCakeThenFireworksSequence();
+});
+
+// Sequential cake → fireworks → Happy 20th → Poem
+async function showCakeThenFireworksSequence(){
+  await showCake();
+  await showFireworks();
+  await typeAnimatedMessage(msg1,"🎉 Happy 20th Pallavi! 🎉",0,150);
+  await delay(800);
+ const poem = `
+🎉 Pallavi 🎉
+
+Our friendship has completed 7 amazing years! 🥹💖
+
+From our silly childhood moments to the secrets we’ve shared,
+every day with you has been a treasure beyond compare. ✨
+
+You light up every room with your smile,
+your kindness and love touch everyone around. 💕
+
+Today, as you turn 20, may your heart be filled with joy,
+your dreams take flight, and every wish you make comes true. 🎂🌸
+
+May laughter follow you wherever you go,
+and may our friendship grow stronger with each passing year. 🌟
+
+You’re not just my friend — you’re my family, my sunshine, my star. 💖
+
+Happy 20th Birthday, Pallavi! 🎉🎈✨
+`;
+  await typeAnimatedMessage(msg2,poem,0,50);
+}
+
+// Utility delay
+function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
+
+// Show Cake animation
+function showCake(){return new Promise(resolve=>{
+  cake.style.display="block"; let bottom=-200;
+  const interval=setInterval(()=>{
+    if(bottom>=200){clearInterval(interval); cake.style.display="none"; resolve();}
+    else{bottom+=5; cake.style.bottom=bottom+"px";}
+  },20);
+});}
+
+// Fireworks animation
+function showFireworks(){return new Promise(resolve=>{
+  const center=cakeCenter();
+  for(let i=0;i<50;i++){
+    const fw=document.createElement("div");
+    fw.className="firework";
+    fw.style.left=center.x + (Math.random()*200-100) + "px";
+    fw.style.top=center.y + (Math.random()*200-100) + "px";
+    fw.style.background=`hsl(${Math.random()*360},70%,60%)`;
+    document.body.appendChild(fw);
+    setTimeout(()=>{fw.remove(); if(i===49) resolve();},1500);
+  }
+});}
+
+// Cake center
+function cakeCenter(){
+  const rect=cake.getBoundingClientRect();
+  return {x: rect.left + rect.width/2, y: rect.top + rect.height/2};
+}
+
+// Typing effect (async)
+function typeAnimatedMessage(container,text,i=0,delayTime=50){return new Promise(resolve=>{
+  container.style.display="block";
+  container.style.transform="translate(-50%,-50%) scale(1)";
+  container.style.opacity=1;
+  const p=container.querySelector("p"); p.textContent="";
+  const interval=setInterval(()=>{
+    p.textContent+=text[i]; i++;
+    if(i>=text.length){clearInterval(interval); resolve();}
+  },delayTime);
+});
+}
+</script>
+</body>
+</html>
